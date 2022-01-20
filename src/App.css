@@ -1,10 +1,28 @@
-.App {
-  text-align: center;
+.test {
+  width: 200px;
+  height: 200px;
+  background: black;
+}
+.jumbotron {
+  width: 100%;
+  height: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url("./main.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  color: white;
+}
+.jumbotron h1,
+.jumbotron p {
+  margin-bottom: 20px;
+  text-shadow: 4px 4px 4px black;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.App {
+  text-align: center;
 }
 
 @media (prefers-reduced-motion: no-preference) {
