@@ -2,18 +2,17 @@
 
 import React, { useState } from 'react'
 import { Navbar, Container, Nav, NavDropdown, Button} from 'react-bootstrap';
-import ringImg01 from './ring01.png'
-import ringImg02 from'./ring02.png'
-import ringImg03 from'./ring03.png'
+import ringImg00 from './ring01.png'
+import ringImg01 from'./ring02.png'
+import ringImg02 from'./ring03.png'
 import './App.css';
 import Data from './data.js'
 
 function App() {
 
   let [product, product변경] = useState(Data)
-  {
-    console.log(product)
-  }
+  let [total, setTotal] = useState(0)
+  
   return (
     <div className="App">
       <Navbar bg="light" expand="lg">
@@ -43,7 +42,7 @@ function App() {
           {
             product.map((item, index) => {
               return (
-                <ProductDetail product={product} key={index}></ProductDetail>
+                <ProductDetail product={product[index]} i={index} key={index}></ProductDetail>
               )
             })
           }
@@ -59,10 +58,13 @@ function App() {
 function ProductDetail(props) {
   return (
     <div className="col-md-4">
-            <img src={ringImg01} width="100%" />
-            <h4>{props.product[0].title}</h4>
-            <p>{props.product[1].content}</p>
-            <h4>{props.product[2].price}</h4>
+            {
+              console.log(props.product.img)
+            }
+            <img src={props.product.img} width="90%" />
+            <h4>{props.product.title}</h4>
+            <p>{props.product.content}</p>
+            <h4>{props.product.price}</h4>
     </div>
   )
 }
@@ -79,5 +81,7 @@ function JumboTron() {
     </div>
   )
 }
+
+
 
 export default App;
