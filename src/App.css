@@ -14,11 +14,26 @@
   background-size: cover;
   background-position: center;
   color: white;
+  margin-bottom: 30px;
 }
 .jumbotron h1,
 .jumbotron p {
   margin-bottom: 20px;
   text-shadow: 4px 4px 4px black;
+}
+
+.product .product_wrap img {
+  margin-bottom: 20px;
+}
+
+.product .product_wrap h4.title {
+  font-weight: bold;
+}
+.product .product_wrap h4.price {
+  font-style: italic;
+}
+.product .product_wrap p {
+  font-style: italic;
 }
 
 .App {
