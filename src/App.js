@@ -55,7 +55,7 @@ function App() {
       </Route>
 
       <Route path="/:id">
-        <div>아무거나 적엇을때</div>
+        <div>아무거나 적음</div>
       </Route>
       
     </Switch>
