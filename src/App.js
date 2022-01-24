@@ -13,12 +13,15 @@ import { Link, Route, Switch} from 'react-router-dom'
 function App() {
 
   let [product, product변경] = useState(Data)
-  
+  let [loading, setLoading] = useState(false)
+  let [item, setItem] = useState(2)
+  let [imgIndex, setImgIndex] = useState(0)
+   
   return (
     <div className="App">
       <Navbar bg="light" expand="lg">
         <Container>
-          <Navbar.Brand><Link to="/">Jewelry-Shop</Link></Navbar.Brand>
+          <Navbar.Brand><Link to="/" className="title">Jewelry-Shop</Link></Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
@@ -50,17 +53,24 @@ function App() {
             }
           </div>
 
+          {
+            loading
+            ? <Loading></Loading>
+            : null
+          }
 
           <button className='btn btn-primary' onClick={() => {
             
             //서버로 데이터 보내기
             // axios.post('서버 url', {id : 'papa', pw : 1234})
+            setLoading(true)
 
             axios.get('https://dongmyounglee.github.io/data/data2.json')
             .then((result) => {
               result.data.map((item, index) => {
                 product변경([...product, ...result.data])
               })
+              setLoading(false)
             })
             .catch(() => {
               console.log('실패')
@@ -70,11 +80,11 @@ function App() {
       </Route>
 
       <Route path="/detail/:id">
-        <DetailPage product={product}></DetailPage>
+        <DetailPage product={product} item={item} setItem={setItem} i={imgIndex}></DetailPage>
       </Route>
 
       <Route path="/:id">
-        <div>아무거나 적음</div>
+        <div>Detail Page</div>
       </Route>
       
     </Switch>
@@ -83,11 +93,19 @@ function App() {
   )
 }
 
+function Loading() {
+  return (
+    <div>로딩중 입니다...</div>
+  )
+}
+
 function ProductDetail(props) {
   return (
     <div className="col-md-4 product">
       <div className="product_wrap">
-        <img src={'https://dongmyounglee.github.io/img/ring0' + (props.i+1) + '.png'} width="90%" />
+        <a href={'/detail/' + props.i}>
+          <img src={'https://dongmyounglee.github.io/img/ring0' + (props.i+1) + '.png'} width="90%" />
+        </a>
         <h4 className="title">{props.product.title}</h4>
         <p>{props.product.content}</p>
         <h4 className="price">{props.product.price}</h4>
