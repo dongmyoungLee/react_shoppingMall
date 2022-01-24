@@ -1,0 +1,39 @@
+// nesting
+
+// div.container {
+//   h4 {
+//     color: blue;
+//   }
+//   p {
+//     color: green;
+//   }
+// }
+
+@mixin Func() {
+  background-color: #ec4444;
+  padding: 20px;
+  border-radius: 5px;
+  max-width: 500px;
+  width: 100%;
+  margin: 0 auto;
+  margin-bottom: 10px;
+}
+
+.my-alert {
+  @include Func();
+}
+
+.my-alert2 {
+  @extend .my-alert;
+  background-color: #ffe591;
+}
+
+.my-alert {
+  p {
+    margin: 0;
+    color: white;
+  }
+}
+.hide {
+  display: none;
+}

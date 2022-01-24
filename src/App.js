@@ -5,8 +5,10 @@ import { Navbar, Container, Nav, NavDropdown, Button} from 'react-bootstrap';
 import './App.css';
 import Data from './data.js'
 import DetailPage from './Detail.js'
+import axios from 'axios'
 
 import { Link, Route, Switch} from 'react-router-dom'
+
 
 function App() {
 
@@ -20,8 +22,8 @@ function App() {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link><Link to='/'>Home</Link></Nav.Link>
-              <Nav.Link><Link to='/detail'>Detail</Link></Nav.Link>
+              <Nav.Link as={Link} to="/">Home</Nav.Link>
+              <Nav.Link as={Link} to="/detail">Detail</Nav.Link>
               <NavDropdown title="Dropdown" id="basic-nav-dropdown">
                 <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
@@ -47,6 +49,23 @@ function App() {
               })
             }
           </div>
+
+
+          <button className='btn btn-primary' onClick={() => {
+            
+            //서버로 데이터 보내기
+            // axios.post('서버 url', {id : 'papa', pw : 1234})
+
+            axios.get('https://dongmyounglee.github.io/data/data2.json')
+            .then((result) => {
+              result.data.map((item, index) => {
+                product변경([...product, ...result.data])
+              })
+            })
+            .catch(() => {
+              console.log('실패')
+            })
+          }}>더보기</button>
         </div>
       </Route>
 
