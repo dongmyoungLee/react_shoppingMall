@@ -9,6 +9,16 @@
 //   }
 // }
 
+// 애니메이션 시작할 때
+.wow-enter {
+  opacity: 0;
+}
+// 애니메이션 동작 할 때
+.wow-enter-active {
+  opacity: 1;
+  transition: all 500ms;
+}
+
 @mixin Func() {
   background-color: #ec4444;
   padding: 20px;

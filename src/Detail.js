@@ -6,6 +6,8 @@ import { useHistory, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import './Detail.scss'
 import {ItemContext} from './App.js'
+import { Nav } from 'react-bootstrap';
+import { CSSTransition } from 'react-transition-group'
 
 let Box = styled.div`
     padding : 20px;
@@ -23,6 +25,9 @@ function DetailPage(props) {
     let [soldOut, setSoldOut] = useState(true)
     // 다른 js 파일로 useContext 실행한 테스트
     let testItem = useContext(ItemContext)
+
+    let [tap, setTap] = useState(0)
+    let [swicthBtn, setSwicthBtn] = useState(false)
 
     // DetailPage 등장할때 실행
     useEffect(() => {
@@ -84,12 +89,46 @@ function DetailPage(props) {
                 }}>주문하기</button> 
                 <button className="btn btn-danger" onClick={() => {
                     history.push('/')
-                }}>뒤로가기</button> 
-                
+                }}>뒤로가기</button>
             </div>
         </div>
+
+        
+        <Nav className="mt-5" variant="tabs" defaultActiveKey="link-0">
+          <Nav.Item>
+              <Nav.Link eventKey="link-0" onClick={() => {
+                setSwicthBtn(false)
+                setTap(0)
+              }}>상품설명</Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+              <Nav.Link eventKey="link-1" onClick={() => {
+                setSwicthBtn(false)
+                setTap(1)
+              }}>배송정보</Nav.Link>
+          </Nav.Item>
+        </Nav> 
+        
+        <CSSTransition in={swicthBtn} classNames="wow" timeout={500}>
+          <TapContent tap={tap} setSwicthBtn={setSwicthBtn}/>
+        </CSSTransition>
     </div>
-    )
+    )   
+}
+
+function TapContent(props) {
+  
+  useEffect(() => {
+    props.setSwicthBtn(true)
+  })
+
+  if (props.tap === 0) {
+    return <div>0번째 내용</div>
+  } else if (props.tap === 1) {
+    return <div>1번째 내용</div>
+  } else if (props.tap === 2) {
+    return <div>2번째 내용</div>
+  }
 }
 
 function Info(props) {

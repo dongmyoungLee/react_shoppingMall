@@ -8,6 +8,8 @@ import DetailPage from './Detail.js'
 import axios from 'axios'
 import { Link, Route, Switch} from 'react-router-dom'
 
+import Cart from './Cart.js'
+
 //같은변수값을 공유할 범위생성
 export let ItemContext = React.createContext()
 
@@ -92,6 +94,10 @@ function App() {
         <ItemContext.Provider value={item}>
           <DetailPage product={product} item={item} setItem={setItem} i={imgIndex}></DetailPage>
         </ItemContext.Provider>
+      </Route>
+
+      <Route path="/cart">
+        <Cart></Cart>
       </Route>
 
       <Route path="/:id">

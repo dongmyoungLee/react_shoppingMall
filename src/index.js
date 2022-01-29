@@ -6,6 +6,29 @@ import reportWebVitals from './reportWebVitals';
 
 import { BrowserRouter } from 'react-router-dom'
 
+import { Provider } from 'react-redux'
+import { createStore } from 'redux';
+
+let store = createStore(() => {
+  return [
+    {
+      id : 0,
+      name : '이쁜 반지1',
+      quan : 1
+    },
+    {
+      id : 1,
+      name : '이쁜 반지2',
+      quan : 2
+    },
+    {
+      id : 2,
+      name : '이쁜 반지3',
+      quan : 4
+    }
+]
+})
+
 // Browser -> 서버한테 요청하지 않음
 // Broswser -> 서버에 요청 될 수 도 있음
 
@@ -13,7 +36,9 @@ import { BrowserRouter } from 'react-router-dom'
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <Provider store={store}>
+        <App />
+      </Provider>  
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
