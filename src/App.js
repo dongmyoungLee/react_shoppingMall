@@ -1,22 +1,25 @@
 /* eslint-disable */
 
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Navbar, Container, Nav, NavDropdown, Button} from 'react-bootstrap';
 import './App.css';
 import Data from './data.js'
 import DetailPage from './Detail.js'
 import axios from 'axios'
-
 import { Link, Route, Switch} from 'react-router-dom'
 
+//같은변수값을 공유할 범위생성
+export let ItemContext = React.createContext()
 
 function App() {
 
   let [product, product변경] = useState(Data)
   let [loading, setLoading] = useState(false)
-  let [item, setItem] = useState(2)
+  let [item, setItem] = useState([10,11,12])
   let [imgIndex, setImgIndex] = useState(0)
-   
+
+
+
   return (
     <div className="App">
       <Navbar bg="light" expand="lg">
@@ -43,6 +46,10 @@ function App() {
       <Route exact path="/">
         <JumboTron></JumboTron>
         <div className="container">
+
+        {/* props 대신 Context API */}
+        
+        <ItemContext.Provider value={item}>
           <div className="row">
             {
               product.map((item, index) => {
@@ -52,6 +59,8 @@ function App() {
               })
             }
           </div>
+          </ItemContext.Provider>
+
 
           {
             loading
@@ -80,7 +89,9 @@ function App() {
       </Route>
 
       <Route path="/detail/:id">
-        <DetailPage product={product} item={item} setItem={setItem} i={imgIndex}></DetailPage>
+        <ItemContext.Provider value={item}>
+          <DetailPage product={product} item={item} setItem={setItem} i={imgIndex}></DetailPage>
+        </ItemContext.Provider>
       </Route>
 
       <Route path="/:id">
@@ -100,6 +111,9 @@ function Loading() {
 }
 
 function ProductDetail(props) {
+
+  let Item = useContext(ItemContext)
+
   return (
     <div className="col-md-4 product">
       <div className="product_wrap">
@@ -109,6 +123,7 @@ function ProductDetail(props) {
         <h4 className="title">{props.product.title}</h4>
         <p>{props.product.content}</p>
         <h4 className="price">{props.product.price}</h4>
+        <p>재고 : {Item[props.i]}</p>
       </div>      
     </div>
   )

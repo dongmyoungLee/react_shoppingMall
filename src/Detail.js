@@ -1,11 +1,11 @@
 /* eslint-disable */
 
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import './Detail.scss'
-
+import {ItemContext} from './App.js'
 
 let Box = styled.div`
     padding : 20px;
@@ -21,6 +21,8 @@ function DetailPage(props) {
     
     let [alert, setAlert] = useState(true)
     let [soldOut, setSoldOut] = useState(true)
+    // 다른 js 파일로 useContext 실행한 테스트
+    let testItem = useContext(ItemContext)
 
     // DetailPage 등장할때 실행
     useEffect(() => {
@@ -34,7 +36,6 @@ function DetailPage(props) {
 
     let { id } = useParams()
     let history = useHistory()
-    console.log(props.product)
     let c_pro = props.product.find(item => item.id == id)
     
     return (
@@ -63,18 +64,23 @@ function DetailPage(props) {
 
                 {
                     soldOut === true
-                    ? <Info item={props.item}></Info>
+                    ? <Info item={props.item[c_pro.id]}></Info>
                     : <SoldOut></SoldOut>
                 }
                 
                 <button className="btn btn-danger" onClick={() => {
-                   let copy = props.item
-                   copy = copy - 1
-                   props.setItem(copy)
-
-                   if (copy === 0) {
+                    // console.log(testItem)
+                    let copy1 = []
+                    props.item.map(x => {
+                        copy1.push(x - 1)
+                    })
+                    if (props.item[c_pro.id] === 1) {
                         setSoldOut(false)
-                   }
+                    }
+                    
+                    props.setItem(copy1)
+
+                    
                 }}>주문하기</button> 
                 <button className="btn btn-danger" onClick={() => {
                     history.push('/')
