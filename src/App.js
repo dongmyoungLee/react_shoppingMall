@@ -1,14 +1,19 @@
 /* eslint-disable */
 
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, lazy, Suspense } from 'react'
 import { Navbar, Container, Nav, NavDropdown, Button} from 'react-bootstrap';
 import './App.css';
 import Data from './data.js'
-import DetailPage from './Detail.js'
+//import DetailPage from './Detail.js'
 import axios from 'axios'
 import { Link, Route, Switch} from 'react-router-dom'
 
-import Cart from './Cart.js'
+// import Cart from './Cart.js'
+import { useHistory } from 'react-router-dom';
+
+let DetailPage = lazy(() => import('./Detail.js'))
+let Cart = lazy(() => import('./Cart.js'))
+
 
 //같은변수값을 공유할 범위생성
 export let ItemContext = React.createContext()
@@ -32,13 +37,7 @@ function App() {
             <Nav className="me-auto">
               <Nav.Link as={Link} to="/">Home</Nav.Link>
               <Nav.Link as={Link} to="/detail">Detail</Nav.Link>
-              <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-              </NavDropdown>
+              <Nav.Link as={Link} to="/cart">Cart</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>
@@ -92,12 +91,16 @@ function App() {
 
       <Route path="/detail/:id">
         <ItemContext.Provider value={item}>
-          <DetailPage product={product} item={item} setItem={setItem} i={imgIndex}></DetailPage>
+          <Suspense fallback={<div>로딩중</div>}>
+            <DetailPage product={product} item={item} setItem={setItem} i={imgIndex}></DetailPage>
+          </Suspense>  
         </ItemContext.Provider>
       </Route>
 
       <Route path="/cart">
-        <Cart></Cart>
+        <Suspense fallback={<div>로딩중</div>}>
+          <Cart></Cart>
+        </Suspense>
       </Route>
 
       <Route path="/:id">
@@ -119,13 +122,12 @@ function Loading() {
 function ProductDetail(props) {
 
   let Item = useContext(ItemContext)
+  let history = useHistory()
 
   return (
-    <div className="col-md-4 product">
+    <div className="col-md-4 product" onClick={() => {history.push('/detail/' + props.product.id)}}>
       <div className="product_wrap">
-        <a href={'/detail/' + props.i}>
-          <img src={'https://dongmyounglee.github.io/img/ring0' + (props.i+1) + '.png'} width="90%" />
-        </a>
+        <img src={'https://dongmyounglee.github.io/img/ring0' + (props.i+1) + '.png'} width="90%" />
         <h4 className="title">{props.product.title}</h4>
         <p>{props.product.content}</p>
         <h4 className="price">{props.product.price}</h4>

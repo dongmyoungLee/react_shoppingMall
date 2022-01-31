@@ -8,6 +8,7 @@ import './Detail.scss'
 import {ItemContext} from './App.js'
 import { Nav } from 'react-bootstrap';
 import { CSSTransition } from 'react-transition-group'
+import { connect } from 'react-redux'
 
 let Box = styled.div`
     padding : 20px;
@@ -85,7 +86,11 @@ function DetailPage(props) {
                     
                     props.setItem(copy1)
 
-                    
+                    props.dispatch({
+                        type : 'cartAdd',
+                        payload : {id : c_pro.id, name : c_pro.title, quan : 1}
+                    })
+                    history.push('/cart')
                 }}>주문하기</button> 
                 <button className="btn btn-danger" onClick={() => {
                     history.push('/')
@@ -165,5 +170,11 @@ function InfoMessage() {
 // }
 
 
-
-export default DetailPage
+function storeData(state) {
+    return {
+      stateData : state.reducer,
+      alertOpen : state.reducer2
+    }
+  }
+  
+export default connect(storeData)(DetailPage)

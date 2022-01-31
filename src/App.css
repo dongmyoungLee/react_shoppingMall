@@ -1,4 +1,6 @@
-
+.product{
+  cursor: pointer;
+}
 .title {
   color : black;
   text-decoration: none;
