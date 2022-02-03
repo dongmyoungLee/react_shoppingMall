@@ -29,6 +29,8 @@ function DetailPage(props) {
 
     let [tap, setTap] = useState(0)
     let [swicthBtn, setSwicthBtn] = useState(false)
+    let [storageItem, setStorageItem] = useState(JSON.parse(localStorage.getItem('watched')))
+    
 
     // DetailPage 등장할때 실행
     useEffect(() => {
@@ -39,6 +41,21 @@ function DetailPage(props) {
         let timer = setTimeout(()=> {setAlert(false)}, 2000)
         return () => { clearTimeout(timer) }
     }, [alert]) // -> alert 라는 state가 update 할때만 useEffect 실행
+
+    useEffect(() => {
+      let arr = localStorage.getItem('watched')
+      if (arr === null) {
+        arr = []
+      } else {
+        arr = JSON.parse(arr)
+      }
+      arr.push(id)
+      arr = new Set(arr)
+      arr = [...arr]
+
+      localStorage.setItem('watched', JSON.stringify(arr))
+    }, [])
+
 
     let { id } = useParams()
     let history = useHistory()
@@ -95,10 +112,26 @@ function DetailPage(props) {
                 <button className="btn btn-danger" onClick={() => {
                     history.push('/')
                 }}>뒤로가기</button>
+                <div style={{marginTop : '20px', cursor : 'pointer'}}>
+                  <p>최근 본 상품이 아래에 표시 됩니다.</p>
+                  {
+                    storageItem === null
+                    ? null
+                    : storageItem.map((item, index) => {
+                          return (
+                            <div key={index} onClick={() => {
+                              history.push(item)
+                            }}>
+                              <img style={{width : '50px'}} src={'https://dongmyounglee.github.io/img/ring0' + (Number(item)+1) + '.png'}></img>
+                              <div>{props.product[item].title}</div>
+                            </div>
+                          ) 
+                        })
+                      }  
+                </div>
             </div>
+            
         </div>
-
-        
         <Nav className="mt-5" variant="tabs" defaultActiveKey="link-0">
           <Nav.Item>
               <Nav.Link eventKey="link-0" onClick={() => {
@@ -117,6 +150,7 @@ function DetailPage(props) {
         <CSSTransition in={swicthBtn} classNames="wow" timeout={500}>
           <TapContent tap={tap} setSwicthBtn={setSwicthBtn}/>
         </CSSTransition>
+        
     </div>
     )   
 }

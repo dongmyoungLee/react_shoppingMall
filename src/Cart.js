@@ -1,15 +1,19 @@
+
+/*eslint-disable*/
+
 import React, { useEffect, useState } from 'react'
 import { Table } from 'react-bootstrap'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
 import { connect } from 'react-redux'
 
+
 function Cart(props) {
 
   let selectorHook = useSelector((state) => state.reducer)
   let dispatchHook = useDispatch()
   
- 
+
   // let [count, setCount] = useState(0);
   // let [age, setAge] = useState(20);
 
