@@ -22,16 +22,16 @@ function App() {
 
   let [product, product변경] = useState(Data)
   let [loading, setLoading] = useState(false)
-  let [item, setItem] = useState([10,11,12])
+  let [item, setItem] = useState([10,11,12,13,14,15])
   let [imgIndex, setImgIndex] = useState(0)
-
+  let [moreBtn, setMoreBtn] = useState(0)
 
 
   return (
     <div className="App">
       <Navbar bg="light" expand="lg">
         <Container>
-          <Navbar.Brand><Link to="/" className="title">Jewelry-Shop</Link></Navbar.Brand>
+          <Navbar.Brand><Link to="/" className="title">Ring-shop</Link></Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
@@ -67,25 +67,35 @@ function App() {
             loading
             ? <Loading></Loading>
             : null
+            
           }
 
-          <button className='btn btn-primary' onClick={() => {
-            
-            //서버로 데이터 보내기
-            // axios.post('서버 url', {id : 'papa', pw : 1234})
-            setLoading(true)
-
-            axios.get('https://dongmyounglee.github.io/data/data2.json')
-            .then((result) => {
-              result.data.map((item, index) => {
-                product변경([...product, ...result.data])
+          {
+            moreBtn === 1
+            ? null
+            : <button className='btn btn-primary' onClick={() => {
+              let copy = moreBtn
+              copy = moreBtn + 1
+              setMoreBtn(copy)
+              
+              //서버로 데이터 보내기
+              // axios.post('서버 url', {id : 'papa', pw : 1234})
+              setLoading(true)
+  
+              axios.get('https://dongmyounglee.github.io/data/data2.json')
+              .then((result) => {
+                result.data.map((item, index) => {
+                  product변경([...product, ...result.data])
+                })
+                setLoading(false)
               })
-              setLoading(false)
-            })
-            .catch(() => {
-              console.log('실패')
-            })
-          }}>더보기</button>
+              .catch(() => {
+                console.log('실패')
+              })
+            }}>더보기</button>
+          }
+          
+          
         </div>
       </Route>
 

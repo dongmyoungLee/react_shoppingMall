@@ -108,7 +108,7 @@ function DetailPage(props) {
                         payload : {id : c_pro.id, name : c_pro.title, quan : 1}
                     })
                     history.push('/cart')
-                }}>주문하기</button> 
+                }}>장바구니담기</button> 
                 <button className="btn btn-danger" onClick={() => {
                     history.push('/')
                 }}>뒤로가기</button>
